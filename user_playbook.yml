@@ -1,0 +1,23 @@
+---
+- hosts: web_server
+  become: yes
+  tasks:
+    - name: Create user joe
+      user:
+        name: joe
+        shell: /bin/bash
+        groups: sudo
+    - name: Create .ssh directory for 'joe'
+      file:
+        path: /home/joe/.ssh
+        state: directory
+        owner: joe
+        group: joe
+        mode: '0700'
+    - name: Set up SSH authorized keys for 'joe'
+      copy:
+        src: /home/cesar/.ssh/id_rsa.pub
+        dest: /home/joe/.ssh/authorized_keys
+        owner: joe
+        group: joe
+        mode: '0600'

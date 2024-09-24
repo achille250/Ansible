@@ -1,0 +1,17 @@
+---
+- name: Deploy HTML Web Application
+  hosts: web_server
+  become: yes 
+  
+  tasks:
+    - name: Copy HTML files to Nginx web directory
+      copy:
+        src: "{{ item }}"
+        dest: /var/www/html/
+        owner: www-data
+        group: www-data
+        mode: '0644'
+      with_items:
+        - welcome.html
+        - about.html
+
